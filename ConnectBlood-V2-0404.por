@@ -20,29 +20,29 @@ programa {
 
   // chamada em vários lugares para imprimir o letreiro em tela
   funcao letreiroPrograma() {    
-    escreva("#################################################\n")
-    escreva("########         CONNECT BLOOD           ########\n")
-    escreva("#################################################\n")
+    escreva("##################################################\n")
+    escreva("########          CONNECT BLOOD           ########\n")
+    escreva("##################################################\n")
   }
 
   // chamada na abertura do programa e quando voltamos para o menu principal
   funcao menuLogin() {
     letreiroPrograma()  // Estou chamando a função ali de cima. o jeito de chamar uma função é escrever o nome dela com abre-fecha parênteses
-    escreva("\n          ###### OPÇÕES DE LOGIN ######\n")
-    escreva("          ####  1 - DOADOR         ####\n")
-    escreva("          ####  2 - ADMINISTRADOR  ####\n")
-    escreva("          ####  3 - SAIR           ####\n")
-    escreva("          #############################\n")
+    escreva("\n         ####### OPÇÕES DE LOGIN #######\n")
+    escreva("         ####  1 - DOADOR           ####\n")
+    escreva("         ####  2 - ADMINISTRADOR    ####\n")
+    escreva("         ####  3 - SAIR             ####\n")
+    escreva("         ###############################\n")
   }
 
 
     funcao menuDoador() {
     letreiroPrograma()
-    escreva("\n        ######## OPÇÕES DE DOADOR ########\n")
-    escreva("        ###  1 - AGENDAMENTO           ###\n")
-    escreva("        ###  2 - ATUALIZAR CADASTRO    ###\n")
-    escreva("        ###  3 - SAIR                  ###\n")
-    escreva("        ##################################\n")
+    escreva("\n       ######### OPÇÕES DE DOADOR #########\n")
+    escreva("       ####  1 - AGENDAMENTO           ####\n")
+    escreva("       ####  2 - ATUALIZAR CADASTRO    ####\n")
+    escreva("       ####  3 - SAIR                  ####\n")
+    escreva("       ####################################\n")
     }
   // chamada quando entramos no menu admin e depois de realizarmos as ações 1, 2 ou 3
   funcao menuAdmin() {
@@ -66,14 +66,15 @@ programa {
 
   funcao menuAgendamento() {
     letreiroPrograma()
-    escreva("\n        ###### OPÇÕES DE AGENDAMENTO ###############\n")
-    escreva("          ####  1 - SELECIONE UM BANCO DE SANGUE #####\n")
-    escreva("          ####  2 - DICAS PARA O DIA DA DOAÇÃO   ####\n")
-    escreva("          ####  3 - VOLTAR              #####\n")
-    escreva("          #################################\n")
+    escreva("\n  ########## OPÇÕES DE AGENDAMENTO ###########\n")
+    escreva("  ####  1 - SELECIONE UM BANCO DE SANGUE  ####\n")
+    escreva("  ####  2 - DICAS PARA O DIA DA DOAÇÃO    ####\n")
+    escreva("  ####  3 - VOLTAR                        ####\n")
+    escreva("  ############################################\n")
   }
 
   funcao dicas(){
+    letreiroPrograma()
     escreva("\n      ################################################################\n")
     escreva("        ####  1- Leve um documento oficial com foto.              ######\n")
     escreva("        ####  2- Esteja bem alimentado(a), não doe em jejum       ######\n")
@@ -106,7 +107,8 @@ programa {
   inteiro proximoBanco = 0  // contador para saber em que posição gravar cada banco de sangue
   inteiro codigoMenuPrincipal // guarda a opção do usuário no menu principal
   inteiro codigoMenuInterno  // guarda a opção do usuário no menu interno, reutilizável tanto para admin quanto para doador
-  cadeia dummy // variável 'dummy', só para que o leia() provoque a parada do programa  
+  cadeia dummy // variável 'dummy', só para que o leia() provoque a parada do programa
+  cadeia doadores[5][6]
  
   
   
@@ -123,6 +125,7 @@ programa {
         caso 1:
           //código do menu doador
           limpa()
+          
           menuDoador()
           inteiro codigoMenuDoador=0
           escreva("\nDigite sua opção: ")
@@ -138,9 +141,9 @@ programa {
             alerta()
             u.aguarde(10000)
             limpa()
-
+            letreiroPrograma()
             escreva("\nUse S para sim e N para não.\n")
-            escreva("1- Você tem menos de 16 anos?\n")
+            escreva("\n1- Você tem menos de 16 anos?\n")
             leia(pre_triagem[0])
             escreva("2- Você tem mais de 69 anos?\n")
             leia(pre_triagem[1])
@@ -153,7 +156,8 @@ programa {
             escreva("6- Você tem hepatite, AIDS, Doença de Chagas, malária ou HTLV?\n")
             leia(pre_triagem[5])
             limpa()
-            escreva("7- Você faz uso de drogas ilícitas injetávies?\n")
+            letreiroPrograma()
+            escreva("\n7- Você faz uso de drogas ilícitas injetávies?\n")
             leia(pre_triagem[6])
             escreva("8- Você tem problemas cardiácos?\n")
             leia(pre_triagem[7])
@@ -176,10 +180,12 @@ programa {
             se (impedido) { // <-- esse se tava dentro 'para'. vem que ficar fora, senão vai aparecer para cada resposta sim
               escreva("\nInfelizmente, no momento, você não cumpre os requisitos para efetuar a doação.\n")
               escreva("\nLigue para o banco de sangue e saiba mais informações.\n")
-              u.aguarde(500)
+              u.aguarde(1000)
             } senao {
-              escreva("Você será direcionado ao agendamento.")
               u.aguarde(500)
+              escreva("\nVocê será direcionado ao agendamento.\n")
+              u.aguarde(2000)
+              limpa()
               menuAgendamento()
 
               inteiro codigoMenuAgendamento=0
@@ -250,8 +256,8 @@ programa {
                   escreva("\n!!! Sem espaço na base de dados !!!\n")  // se as 5 posições estiverem tomadas (posições de 0 a 4) e a variável proximoBanco estiver com valor 5.
                 }
 
-                  escreva("\ntecle enter para voltar ao menu")
-                  leia(dummy)        
+                escreva("\ntecle enter para voltar ao menu")
+                leia(dummy)        
 
                 pare
               caso 2: // LISTAR BANCOS
@@ -277,8 +283,6 @@ programa {
                 // vou fazer depois que tu fezer a parte de doadores
 
                 pare
-
-              // não precisa do 'caso 4', pois 4 é a saída do menu interno. So o usuário digitar 4, nem vai entrar no 'escola caso'
 
             }  // fim do escolha caso de nível 2 dentro do caso 2 de nivel 1
 
